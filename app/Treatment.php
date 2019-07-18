@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Treatment extends Model
 {
-    //
+        Protected $fillable = [
+        'name',
+        'patient_id'
+  	];
 }
