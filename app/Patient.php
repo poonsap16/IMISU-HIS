@@ -12,4 +12,16 @@ class Patient extends Model
     	'dob',
       	'division_id'
   	];
+
+  	//patient belongs to division
+  	public function divisions(){
+        return $this->belongsTo(Division::class,'division_id');
+    }
+
+    //patient has many treatments
+    public function Treatments(){
+        return $this->hasMany(Treatment::class, 'patient_id','id');
+    }
+
+
 }
