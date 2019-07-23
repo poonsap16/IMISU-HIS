@@ -10,4 +10,8 @@ class Treatment extends Model
         'name',
         'patient_id'
   	];
+
+  	  	public function patient(){
+        return $this->belongsTo(Patient::class);
+    }
 }

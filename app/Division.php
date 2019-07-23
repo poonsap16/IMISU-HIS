@@ -12,7 +12,7 @@ class Division extends Model
   	
   	//division has many patients
     public function patients(){
-        return $this->hasMany(Patient::class,'division_id','id');
+        return $this->hasMany(Patient::class);
     }
 
 }

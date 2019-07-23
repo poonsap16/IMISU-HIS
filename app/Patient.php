@@ -9,18 +9,18 @@ class Patient extends Model
     Protected $fillable = [
         'first_name',
         'last_name',
-    	'dob',
+    	  'dob',
       	'division_id'
   	];
 
   	//patient belongs to division
-  	public function divisions(){
-        return $this->belongsTo(Division::class,'division_id');
+  	public function division(){
+        return $this->belongsTo(Division::class);
     }
 
     //patient has many treatments
     public function Treatments(){
-        return $this->hasMany(Treatment::class, 'patient_id','id');
+        return $this->hasMany(Treatment::class);
     }
 
 
