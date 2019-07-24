@@ -21,11 +21,11 @@
   <tbody>
   @foreach($patients as $patient)
     <tr>
-        <th>{{ $patient->first_name }} {{ $patient->last_name }}</th>
-        <th>{{ $patient->dob }}</th>
-        <th>{{ $patient->division_name }}</th>
-        <th>{{ $patient->treatment_date }}</th>
-        <th>{{ $patient->treatment_name }}</th>
+        <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
+        <td>{{ date('F d, Y', strtotime($patient->dob)) }}</td>
+        <td>{{ $patient->division_name }}</td>
+        <td>{{ date('F d, Y', strtotime($patient->latest_treat)) }}</td>
+        <td></td>
     </tr>
 
   @endforeach

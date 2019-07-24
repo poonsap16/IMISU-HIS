@@ -17,22 +17,41 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = DB::table('patients')
-                    ->join('divisions','patients.division_id',"=",'divisions.id')
-                    ->join('treatments','patients.id',"=",'treatments.patient_id')
-                    ->select(
-                        'patients.*',
-                        'divisions.name as division_name',
-                        'treatments.updated_at as treatment_date',
-                        'treatments.name as treatment_name'
-                    )
-                    ->get();
-                 
+        // $patients = DB::table('patients')
+        //             ->join('divisions','patients.division_id',"=",'divisions.id')
+        //             ->join('treatments','patients.id',"=",'treatments.patient_id')
+        //             ->select(
+        //                 'patients.*',
+        //                 'divisions.name as division_name',
+        //                 'treatments.updated_at as treatment_date',
 
-                    
+        //                 'treatments.name as treatment_name'
+                        
+        //             )
                     
 
-        return view('index', compact('patients'));
+        //             ->get();
+ 
+            $latest = DB::table('treatments')
+                        ->select('patient_id', DB::raw('MAX(updated_at) as latest_treat'))
+                        ->groupBy('patient_id');
+            
+            $patients = DB::table('patients')
+                        ->join('divisions','patients.division_id',"=",'divisions.id')
+                        ->joinSub($latest, 'treat', function ($join){
+                            $join->on('treat.patient_id','=','patients.id');
+                            })
+                        ->select(
+                            'patients.*',
+                            'divisions.name as division_name',
+                            'latest_treat'
+                        )
+                        ->get();
+
+
+
+                        //return $patients;
+         return view('index', compact('patients'));
     }
 
     /**
