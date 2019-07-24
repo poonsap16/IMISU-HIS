@@ -19,7 +19,7 @@ class Patient extends Model
     }
 
     //patient has many treatments
-    public function Treatments(){
+    public function treatments(){
         return $this->hasMany(Treatment::class);
     }
 

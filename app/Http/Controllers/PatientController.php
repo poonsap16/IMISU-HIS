@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use \App\Division;
 use \App\Treatement;
 
+
+
+
 class PatientController extends Controller
 {
     /**
@@ -15,6 +18,9 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct(){
+        $this->middleware('auth');
+    }
     public function index()
     {
         // $patients = DB::table('patients')
@@ -33,25 +39,30 @@ class PatientController extends Controller
         //             ->get();
  
             $latest = DB::table('treatments')
-                        ->select('patient_id', DB::raw('MAX(updated_at) as latest_treat'))
+                        ->select('patient_id', DB::raw('MAX(updated_at) as latest_treat', 'name as t_name'))
                         ->groupBy('patient_id');
+
             
             $patients = DB::table('patients')
                         ->join('divisions','patients.division_id',"=",'divisions.id')
+                        
                         ->joinSub($latest, 'treat', function ($join){
                             $join->on('treat.patient_id','=','patients.id');
                             })
+
                         ->select(
                             'patients.*',
                             'divisions.name as division_name',
-                            'latest_treat'
+                            'latest_treat',
+                            'treat.*'
                         )
+
                         ->get();
 
 
 
-                        //return $patients;
-         return view('index', compact('patients'));
+        //return $patients;
+          return view('index', compact('patients'));
     }
 
     /**
