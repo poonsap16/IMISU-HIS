@@ -58,6 +58,22 @@ class PatientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+    
+        $patients_search = Patient::where('first_name', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('last_name','LIKE', '%' . $search . '%')
+                                    ->orWhereHas('division',function($div_query) use($search) {
+                                        $div_query->where('name','LIKE', '%' . $search . '%');
+                                    })
+                                    ->paginate(20);
+
+        return view('index',['patients' => $patients_search ]);
+
+    }
+
+
     public function create()
     {
         //

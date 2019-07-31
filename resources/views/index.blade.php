@@ -7,7 +7,10 @@
 
 <div class="container" align="center">
 <div><h2>Pateints List</h2></div></br>
-
+<form class="form-inline my-2 my-lg-0" action="/search" method="get">
+      <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" aria-label="Search" required="">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
 <table class="table">
   <thead>
     <tr>
@@ -24,8 +27,7 @@
         <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
         <td>{{ date('F d, Y', strtotime($patient->dob)) }}</td>
         <td>{{ $patient->division->name }}</td>
-        <!-- <td>{{ date('F d, Y', strtotime($patient->latest_treat)) }}</td> -->
-                <td>  {{ date('F d, Y', strtotime($patient->treatments->first()->created_at)) }}</td>
+        <td>  {{ date('F d, Y', strtotime($patient->treatments->first()->created_at)) }}</td>
         <td> {{ $patient->treatments->first()->name }} </td> 
         <td></td>
     </tr>

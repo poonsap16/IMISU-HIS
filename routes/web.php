@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/index', 'PatientController@index');
+
+Route::get('/search', 'PatientController@search');
