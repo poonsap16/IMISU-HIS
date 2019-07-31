@@ -23,46 +23,34 @@ class PatientController extends Controller
     }
     public function index()
     {
-        // $patients = DB::table('patients')
-        //             ->join('divisions','patients.division_id',"=",'divisions.id')
-        //             ->join('treatments','patients.id',"=",'treatments.patient_id')
-        //             ->select(
-        //                 'patients.*',
-        //                 'divisions.name as division_name',
-        //                 'treatments.updated_at as treatment_date',
 
-        //                 'treatments.name as treatment_name'
-                        
-        //             )
-                    
-
-        //             ->get();
  
-            $latest = DB::table('treatments')
-                        ->select('patient_id', DB::raw('MAX(updated_at) as latest_treat', 'name as t_name'))
-                        ->groupBy('patient_id');
+            // $latest = DB::table('treatments')
+            //             ->select('patient_id', DB::raw('MAX(updated_at) as latest_treat', 'name as t_name'))
+            //             ->groupBy('patient_id');
 
             
-            $patients = DB::table('patients')
-                        ->join('divisions','patients.division_id',"=",'divisions.id')
+            // $patients = DB::table('patients')
+            //             ->join('divisions','patients.division_id',"=",'divisions.id')
                         
-                        ->joinSub($latest, 'treat', function ($join){
-                            $join->on('treat.patient_id','=','patients.id');
-                            })
+            //             ->joinSub($latest, 'treat', function ($join){
+            //                 $join->on('treat.patient_id','=','patients.id');
+            //                 })
 
-                        ->select(
-                            'patients.*',
-                            'divisions.name as division_name',
-                            'latest_treat',
-                            'treat.*'
-                        )
+            //             ->select(
+            //                 'patients.*',
+            //                 'divisions.name as division_name',
+            //                 'latest_treat',
+            //                 'treat.*'
+            //             )
 
-                        ->get();
+            //             ->get();
 
-
+        $patients = Patient::paginate(20);
 
         //return $patients;
-          return view('index', compact('patients'));
+        //  return view('index', compact('patients'));
+        return view('index')->with(['patients'=>$patients]);
     }
 
     /**

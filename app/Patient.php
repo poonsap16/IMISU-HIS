@@ -20,7 +20,7 @@ class Patient extends Model
 
     //patient has many treatments
     public function treatments(){
-        return $this->hasMany(Treatment::class);
+        return $this->hasMany(Treatment::class)->latest();
     }
 
 

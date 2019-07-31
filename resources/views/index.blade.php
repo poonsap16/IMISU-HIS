@@ -23,8 +23,10 @@
     <tr>
         <td>{{ $patient->first_name }} {{ $patient->last_name }}</td>
         <td>{{ date('F d, Y', strtotime($patient->dob)) }}</td>
-        <td>{{ $patient->division_name }}</td>
-        <td>{{ date('F d, Y', strtotime($patient->latest_treat)) }}</td>
+        <td>{{ $patient->division->name }}</td>
+        <!-- <td>{{ date('F d, Y', strtotime($patient->latest_treat)) }}</td> -->
+                <td>  {{ date('F d, Y', strtotime($patient->treatments->first()->created_at)) }}</td>
+        <td> {{ $patient->treatments->first()->name }} </td> 
         <td></td>
     </tr>
 
@@ -34,6 +36,9 @@
 
   </tbody> 
 </table>
+</div>
+<div class="pagination justify-content-center">
+  {{$patients->links()}}
 </div>
 
 
